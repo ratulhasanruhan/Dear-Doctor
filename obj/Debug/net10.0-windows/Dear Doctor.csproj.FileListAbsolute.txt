@@ -1,0 +1,28 @@
+R:\Projects\Dear Doctor\bin\Debug\net10.0-windows\Dear Doctor.exe
+R:\Projects\Dear Doctor\bin\Debug\net10.0-windows\Dear Doctor.deps.json
+R:\Projects\Dear Doctor\bin\Debug\net10.0-windows\Dear Doctor.runtimeconfig.json
+R:\Projects\Dear Doctor\bin\Debug\net10.0-windows\Dear Doctor.dll
+R:\Projects\Dear Doctor\bin\Debug\net10.0-windows\Dear Doctor.pdb
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\MainWindow.g.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\App.g.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor_MarkupCompile.cache
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor_MarkupCompile.lref
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\MainWindow.baml
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.g.resources
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.GeneratedMSBuildEditorConfig.editorconfig
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.AssemblyInfoInputs.cache
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.AssemblyInfo.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.csproj.CoreCompileInputs.cache
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.dll
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\refint\Dear Doctor.dll
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.pdb
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Dear Doctor.genruntimeconfig.cache
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\ref\Dear Doctor.dll
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Controls\AutoCompleteTextBox.baml
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Controls\AutoCompleteTextBox.g.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Views\MedicineView.baml
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Views\MedicineView.g.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Views\PrescriptionView.g.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\GeneratedInternalTypeHelper.g.cs
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\App.baml
+R:\Projects\Dear Doctor\obj\Debug\net10.0-windows\Views\PrescriptionView.baml
