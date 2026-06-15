@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "R:\\Projects\\Dear Doctor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B2F8D793-E7E6-4773-888C-89533ADCF249}|Dear Doctor.csproj|r:\\projects\\dear doctor\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{B2F8D793-E7E6-4773-888C-89533ADCF249}|Dear Doctor.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{A4588B1A-7BB5-F738-BB2C-FE97635265E5}|Dear Doctor.csproj|r:\\projects\\dear doctor\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A4588B1A-7BB5-F738-BB2C-FE97635265E5}|Dear Doctor.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B2F8D793-E7E6-4773-888C-89533ADCF249}|Dear Doctor.csproj|r:\\projects\\dear doctor\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B2F8D793-E7E6-4773-888C-89533ADCF249}|Dear Doctor.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A4588B1A-7BB5-F738-BB2C-FE97635265E5}|Dear Doctor.csproj|r:\\projects\\dear doctor\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A4588B1A-7BB5-F738-BB2C-FE97635265E5}|Dear Doctor.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4588B1A-7BB5-F738-BB2C-FE97635265E5}|Dear Doctor.csproj|r:\\projects\\dear doctor\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A4588B1A-7BB5-F738-BB2C-FE97635265E5}|Dear Doctor.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,6 +27,18 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "App.xaml",
+              "DocumentMoniker": "R:\\Projects\\Dear Doctor\\App.xaml",
+              "RelativeDocumentMoniker": "App.xaml",
+              "ToolTip": "R:\\Projects\\Dear Doctor\\App.xaml",
+              "RelativeToolTip": "App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-06-15T06:48:12.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "R:\\Projects\\Dear Doctor\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
@@ -34,7 +50,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "R:\\Projects\\Dear Doctor\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
@@ -42,12 +58,7 @@
               "RelativeToolTip": "MainWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-14T18:19:28.706Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "WhenOpened": "2026-06-14T18:19:28.706Z"
             }
           ]
         }
