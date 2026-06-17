@@ -10,7 +10,8 @@
         MinHeight="600" MinWidth="1000"
         WindowStartupLocation="CenterScreen"
         Background="#F8FAFC"
-        PreviewKeyDown="Window_PreviewKeyDown">
+        PreviewKeyDown="Window_PreviewKeyDown"
+        Icon="/Assets/icon.png">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -53,11 +54,21 @@
                                  Checked="NavigationTab_Checked"/>
                 </StackPanel>
 
-                <!-- Sidebar Footer -->
+                <!-- Sidebar Footer / Settings -->
                 <StackPanel Grid.Row="2" Margin="0,20,0,0">
-                    <Border Height="1" Background="#1E293B" Margin="0,0,0,12"/>
-                    <TextBlock Text="Dear Doctor v1.0" FontSize="11" Foreground="#475569" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Offline Local Storage" FontSize="10" Foreground="#475569" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    <Border Height="1" Background="#1E293B" Margin="0,0,0,16"/>
+                    
+                    <!-- Settings Navigation Option -->
+                    <RadioButton x:Name="SettingsTab"
+                                 Content="Settings"
+                                 Style="{StaticResource SidebarButtonStyle}"
+                                 Checked="NavigationTab_Checked"
+                                 Margin="0,0,0,16"/>
+                    
+                    <DockPanel LastChildFill="False">
+                        <TextBlock Text="Dear Doctor v1.0.0" FontSize="11" Foreground="#475569" DockPanel.Dock="Left"/>
+                        <TextBlock Text="Local Storage" FontSize="10" Foreground="#475569" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+                    </DockPanel>
                 </StackPanel>
             </Grid>
         </Border>

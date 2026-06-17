@@ -1,0 +1,98 @@
+<UserControl x:Class="Dear_Doctor.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900"
+             Background="#F8FAFC">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Row -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Settings" FontSize="24" FontWeight="Bold" Foreground="#0F172A"/>
+                <TextBlock Text="Manage your application configuration and preferences" FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Main Body -->
+        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="8" BorderThickness="1" BorderBrush="#E2E8F0" Padding="24">
+            <StackPanel MaxWidth="600" HorizontalAlignment="Left">
+                <!-- Startup Preferences -->
+                <TextBlock Text="System Preferences" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,16"/>
+                
+                <Border Background="#F8FAFC" CornerRadius="6" Padding="16" BorderThickness="1" BorderBrush="#F1F5F9" Margin="0,0,0,24">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="Start with Windows" FontSize="15" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            <TextBlock Text="Automatically launch Dear Doctor when you start your computer." FontSize="13" Foreground="#64748B" Margin="0,4,0,0"/>
+                        </StackPanel>
+                        
+                        <!-- CheckBox -->
+                        <CheckBox x:Name="StartupCheckBox" 
+                                  Grid.Column="1" 
+                                  VerticalAlignment="Center" 
+                                  RenderTransformOrigin="0.5,0.5" 
+                                  Cursor="Hand"
+                                  Checked="StartupCheckBox_Checked"
+                                  Unchecked="StartupCheckBox_Unchecked">
+                            <CheckBox.RenderTransform>
+                                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                            </CheckBox.RenderTransform>
+                        </CheckBox>
+                    </Grid>
+                </Border>
+
+                <!-- System Info -->
+                <TextBlock Text="Application Information" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,16"/>
+                
+                <Border Background="#F8FAFC" CornerRadius="6" Padding="16" BorderThickness="1" BorderBrush="#F1F5F9">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="App Name" Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#64748B"/>
+                            <TextBlock Text="Dear Doctor" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Foreground="#0F172A"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="App Version" Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#64748B"/>
+                            <TextBlock Text="1.0.0" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Foreground="#0F172A"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Storage Type" Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#64748B"/>
+                            <TextBlock Text="Offline Local JSON Storage" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Foreground="#0F766E"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Target Platform" Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#64748B"/>
+                            <TextBlock Text="Windows Desktop (.NET 10.0)" Grid.Column="1" FontSize="14" FontWeight="SemiBold" Foreground="#0F172A"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

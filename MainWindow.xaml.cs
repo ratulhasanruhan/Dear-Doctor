@@ -9,11 +9,13 @@ namespace Dear_Doctor
     {
         private PrescriptionView? _prescriptionView;
         private MedicineView? _medicineView;
+        private SettingsView? _settingsView;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeViews();
+            SettingsView.InitializeStartupSetting();
         }
 
         private void InitializeViews()
@@ -39,6 +41,11 @@ namespace Dear_Doctor
             {
                 _medicineView = _medicineView ?? new MedicineView();
                 MainContentFrame.Content = _medicineView;
+            }
+            else if (SettingsTab.IsChecked == true)
+            {
+                _settingsView = _settingsView ?? new SettingsView();
+                MainContentFrame.Content = _settingsView;
             }
         }
 
