@@ -53,9 +53,9 @@ namespace Dear_Doctor.Services
                 patientGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Bottom line
 
                 // Top Line
-                Border topLine = new Border { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0, 1, 0, 0), Height = 1, Margin = new Thickness(0, 0, 0, 8) };
-                Grid.SetRow(topLine, 0);
-                patientGrid.Children.Add(topLine);
+                // Border topLine = new Border { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0, 1, 0, 0), Height = 1, Margin = new Thickness(0, 0, 0, 8) };
+                // Grid.SetRow(topLine, 0);
+                // patientGrid.Children.Add(topLine);
 
                 // Patient Info Columns
                 Grid infoColumns = new Grid();
@@ -156,6 +156,7 @@ namespace Dear_Doctor.Services
                     StackPanel panel = new StackPanel { Margin = new Thickness(0, 0, 0, 20) };
 
                     // 1. Category Title
+                    /*
                     panel.Children.Add(new TextBlock
                     {
                         Text = categoryTitle,
@@ -166,6 +167,7 @@ namespace Dear_Doctor.Services
                         TextDecorations = TextDecorations.Underline,
                         FontFamily = new FontFamily("Segoe UI")
                     });
+                    */
 
                     // 2. Table Border (Outer Box)
                     Border tableBorder = new Border

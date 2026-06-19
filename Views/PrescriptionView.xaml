@@ -305,7 +305,7 @@
                                 </Grid.RowDefinitions>
 
                                 <!-- Top border line -->
-                                <Border Grid.Row="0" BorderBrush="#000000" BorderThickness="0,1,0,0" Height="2" Margin="0,0,0,8"/>
+                                <!-- <Border Grid.Row="0" BorderBrush="#000000" BorderThickness="0,1,0,0" Height="2" Margin="0,0,0,8"/> -->
 
                                 <!-- Patient Details -->
                                 <Grid Grid.Row="1" Margin="4,0">
@@ -412,7 +412,7 @@
                                         <!-- General Physician Medicines -->
                                         <StackPanel Margin="0,0,0,20" Visibility="{Binding Medicines, Converter={StaticResource CategoryVisibilityConverter}, ConverterParameter='General Physician'}">
                                             <!-- Category Title -->
-                                            <TextBlock Text="General Physician" FontWeight="Bold" FontSize="11" Foreground="#000000" Margin="0,0,0,8" TextDecorations="Underline"/>
+                                            <!-- <TextBlock Text="General Physician" FontWeight="Bold" FontSize="11" Foreground="#000000" Margin="0,0,0,8" TextDecorations="Underline"/> -->
                                             
                                             <!-- Bordered Table -->
                                             <Border BorderBrush="#000000" BorderThickness="1">
@@ -493,7 +493,7 @@
                                         <!-- Skin & Hair Medicines -->
                                         <StackPanel Margin="0,0,0,20" Visibility="{Binding Medicines, Converter={StaticResource CategoryVisibilityConverter}, ConverterParameter='Skin &amp; Hair'}">
                                             <!-- Category Title -->
-                                            <TextBlock Text="Skin &amp; Hair" FontWeight="Bold" FontSize="11" Foreground="#000000" Margin="0,0,0,8" TextDecorations="Underline"/>
+                                            <!-- <TextBlock Text="Skin &amp; Hair" FontWeight="Bold" FontSize="11" Foreground="#000000" Margin="0,0,0,8" TextDecorations="Underline"/> -->
 
                                             <!-- Bordered Table -->
                                             <Border BorderBrush="#000000" BorderThickness="1">
