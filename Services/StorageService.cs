@@ -58,13 +58,20 @@ namespace Dear_Doctor.Services
         {
             return new List<Medicine>
             {
-                new() { Name = "Tab. Paracetamol 500mg", GenericName = "Paracetamol", DefaultDose = "1+0+1", DefaultDuration = "3 days", DefaultInstructions = "After meal" },
-                new() { Name = "Cap. Amoxicillin 500mg", GenericName = "Amoxicillin", DefaultDose = "1+1+1", DefaultDuration = "7 days", DefaultInstructions = "After meal" },
-                new() { Name = "Tab. Omeprazole 20mg", GenericName = "Omeprazole", DefaultDose = "1+0+0", DefaultDuration = "14 days", DefaultInstructions = "30 mins before meal" },
-                new() { Name = "Tab. Metformin 500mg", GenericName = "Metformin", DefaultDose = "0+1+0", DefaultDuration = "Continue", DefaultInstructions = "With meal" },
-                new() { Name = "Tab. Atorvastatin 10mg", GenericName = "Atorvastatin", DefaultDose = "0+0+1", DefaultDuration = "Continue", DefaultInstructions = "Before sleep" },
-                new() { Name = "Syp. Antacid 100ml", GenericName = "Antacid", DefaultDose = "2 tsp", DefaultDuration = "7 days", DefaultInstructions = "After meal when needed" },
-                new() { Name = "Tab. Cetirizine 10mg", GenericName = "Cetirizine", DefaultDose = "0+0+1", DefaultDuration = "5 days", DefaultInstructions = "After meal" }
+                new() { Name = "Tab. Paracetamol 500mg", GenericName = "Paracetamol", DefaultDose = "1+0+1", DefaultDuration = "3 days", DefaultInstructions = "After meal", Category = "General Physician" },
+                new() { Name = "Cap. Amoxicillin 500mg", GenericName = "Amoxicillin", DefaultDose = "1+1+1", DefaultDuration = "7 days", DefaultInstructions = "After meal", Category = "General Physician" },
+                new() { Name = "Tab. Omeprazole 20mg", GenericName = "Omeprazole", DefaultDose = "1+0+0", DefaultDuration = "14 days", DefaultInstructions = "30 mins before meal", Category = "General Physician" },
+                new() { Name = "Tab. Metformin 500mg", GenericName = "Metformin", DefaultDose = "0+1+0", DefaultDuration = "Continue", DefaultInstructions = "With meal", Category = "General Physician" },
+                new() { Name = "Tab. Atorvastatin 10mg", GenericName = "Atorvastatin", DefaultDose = "0+0+1", DefaultDuration = "Continue", DefaultInstructions = "Before sleep", Category = "General Physician" },
+                new() { Name = "Syp. Antacid 100ml", GenericName = "Antacid", DefaultDose = "2 tsp", DefaultDuration = "7 days", DefaultInstructions = "After meal when needed", Category = "General Physician" },
+                new() { Name = "Tab. Cetirizine 10mg", GenericName = "Cetirizine", DefaultDose = "0+0+1", DefaultDuration = "5 days", DefaultInstructions = "After meal", Category = "General Physician" },
+                
+                // Skin & Hair defaults
+                new() { Name = "Lotion Minoxidil 5%", GenericName = "Minoxidil", DefaultDose = "1ml", DefaultDuration = "Continue", DefaultInstructions = "Apply to scalp twice daily", Category = "Skin & Hair" },
+                new() { Name = "Tab. Finasteride 1mg", GenericName = "Finasteride", DefaultDose = "1+0+0", DefaultDuration = "Continue", DefaultInstructions = "At the same time daily", Category = "Skin & Hair" },
+                new() { Name = "Cream Ketoconazole 2%", GenericName = "Ketoconazole", DefaultDose = "Apply once", DefaultDuration = "14 days", DefaultInstructions = "Apply to affected skin", Category = "Skin & Hair" },
+                new() { Name = "Cap. Itraconazole 100mg", GenericName = "Itraconazole", DefaultDose = "0+0+1", DefaultDuration = "7 days", DefaultInstructions = "Immediately after main meal", Category = "Skin & Hair" },
+                new() { Name = "Cream Benzoyl Peroxide 5%", GenericName = "Benzoyl Peroxide", DefaultDose = "Apply once", DefaultDuration = "30 days", DefaultInstructions = "Apply at night on acne spots", Category = "Skin & Hair" }
             };
         }
     }

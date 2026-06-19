@@ -10,5 +10,6 @@ namespace Dear_Doctor.Models
         public string DefaultDose { get; set; } = string.Empty;       // e.g., "1+0+1"
         public string DefaultDuration { get; set; } = string.Empty;   // e.g., "7 days"
         public string DefaultInstructions { get; set; } = string.Empty; // e.g., "After meal"
+        public string Category { get; set; } = "General Physician"; // "General Physician" or "Skin & Hair"
     }
 }

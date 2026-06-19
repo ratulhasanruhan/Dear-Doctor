@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -36,13 +37,57 @@ namespace Dear_Doctor.Views
             ActivePrescription = new Prescription();
             
             // Start with one empty medicine row
-            ActivePrescription.Medicines.Add(new PrescribedItem());
+            var initialItem = new PrescribedItem();
+            ActivePrescription.Medicines.Add(initialItem);
             
             DataContext = ActivePrescription;
             LoadSuggestions();
 
+            ActivePrescription.Medicines.CollectionChanged += Medicines_CollectionChanged;
+            foreach (var item in ActivePrescription.Medicines)
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            }
+
             // Refresh suggestions every time view is loaded/restored
             this.Loaded += (s, e) => LoadSuggestions();
+        }
+
+        private void Medicines_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (PrescribedItem item in e.OldItems)
+                {
+                    item.PropertyChanged -= Item_PropertyChanged;
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (PrescribedItem item in e.NewItems)
+                {
+                    item.PropertyChanged += Item_PropertyChanged;
+                }
+            }
+        }
+
+        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(PrescribedItem.MedicineName))
+            {
+                if (sender is PrescribedItem item)
+                {
+                    string name = item.MedicineName?.Trim() ?? string.Empty;
+                    if (!string.IsNullOrEmpty(name) && AllMedicines != null)
+                    {
+                        var matchedMed = AllMedicines.FirstOrDefault(m => string.Equals(m.Name, name, StringComparison.OrdinalIgnoreCase));
+                        if (matchedMed != null)
+                        {
+                            item.Category = string.IsNullOrEmpty(matchedMed.Category) ? "General Physician" : matchedMed.Category;
+                        }
+                    }
+                }
+            }
         }
 
         private void LoadSuggestions()
@@ -61,6 +106,7 @@ namespace Dear_Doctor.Views
                     item.GenericName = e.Medicine.GenericName;
                     item.Dose = e.Medicine.DefaultDose;
                     item.Duration = e.Medicine.DefaultDuration;
+                    item.Category = string.IsNullOrEmpty(e.Medicine.Category) ? "General Physician" : e.Medicine.Category;
 
                     // Focus the DoseInput TextBox of the same row
                     Dispatcher.BeginInvoke(new Action(() =>
@@ -287,6 +333,61 @@ namespace Dear_Doctor.Views
             }
             return Visibility.Collapsed;
         }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CategoryFilterConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is IEnumerable<PrescribedItem> items && parameter is string category)
+            {
+                return items.Where(item => item.Category == category && !string.IsNullOrWhiteSpace(item.MedicineName)).ToList();
+            }
+            return new List<PrescribedItem>();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CategoryVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is IEnumerable<PrescribedItem> items && parameter is string category)
+            {
+                bool hasAny = items.Any(item => item.Category == category && !string.IsNullOrWhiteSpace(item.MedicineName));
+                return hasAny ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class EvenOddBackgroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int index)
+            {
+                if (index % 2 != 0)
+                {
+                    return new SolidColorBrush(Color.FromRgb(245, 245, 245));
+                }
+            }
+            return Brushes.Transparent;
+        }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

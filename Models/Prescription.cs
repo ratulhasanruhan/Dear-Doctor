@@ -12,6 +12,7 @@ namespace Dear_Doctor.Models
         private string _dose = string.Empty;
         private string _duration = string.Empty;
         private string _instructions = string.Empty;
+        private string _category = "General Physician";
 
         public string MedicineName
         {
@@ -43,6 +44,12 @@ namespace Dear_Doctor.Models
             set { _instructions = value; OnPropertyChanged(); }
         }
 
+        public string Category
+        {
+            get => _category;
+            set { _category = value; OnPropertyChanged(); }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
@@ -52,6 +59,33 @@ namespace Dear_Doctor.Models
 
     public class Prescription : INotifyPropertyChanged
     {
+        public Prescription()
+        {
+            _medicines.CollectionChanged += (s, e) =>
+            {
+                if (e.OldItems != null)
+                {
+                    foreach (PrescribedItem item in e.OldItems)
+                    {
+                        item.PropertyChanged -= Item_PropertyChanged;
+                    }
+                }
+                if (e.NewItems != null)
+                {
+                    foreach (PrescribedItem item in e.NewItems)
+                    {
+                        item.PropertyChanged += Item_PropertyChanged;
+                    }
+                }
+                OnPropertyChanged(nameof(Medicines));
+            };
+        }
+
+        private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Medicines));
+        }
+
         private string _patientName = string.Empty;
         private string _age = string.Empty;
         private string _gender = "Male";

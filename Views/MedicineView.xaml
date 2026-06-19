@@ -46,23 +46,39 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Search Bar -->
+                    <!-- Search Bar & Category Filter -->
                     <Grid Grid.Row="0" Margin="0,0,0,16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="180"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="SearchBox" 
-                                 Style="{StaticResource PremiumTextBoxStyle}"
-                                 TextChanged="SearchBox_TextChanged"/>
-                        <!-- Watermark/Placeholder overlay for search -->
-                        <TextBlock x:Name="SearchPlaceholder"
-                                   Text="Search medicines by name or generic name..." 
-                                   Foreground="#94A3B8" 
-                                   FontSize="14" 
-                                   IsHitTestVisible="False" 
-                                   VerticalAlignment="Center" 
-                                   Margin="12,0,0,0"
-                                   Visibility="Visible"/>
+                        
+                        <Grid Grid.Column="0">
+                            <TextBox x:Name="SearchBox" 
+                                     Style="{StaticResource PremiumTextBoxStyle}"
+                                     TextChanged="SearchBox_TextChanged"/>
+                            <!-- Watermark/Placeholder overlay for search -->
+                            <TextBlock x:Name="SearchPlaceholder"
+                                       Text="Search medicines by name or generic name..." 
+                                       Foreground="#94A3B8" 
+                                       FontSize="14" 
+                                       IsHitTestVisible="False" 
+                                       VerticalAlignment="Center" 
+                                       Margin="12,0,0,0"
+                                       Visibility="Visible"/>
+                        </Grid>
+                        
+                        <ComboBox x:Name="CategoryFilterComboBox" 
+                                  Grid.Column="1" 
+                                  Height="38" 
+                                  Margin="8,0,0,0"
+                                  SelectedValuePath="Content"
+                                  SelectedIndex="0"
+                                  SelectionChanged="CategoryFilterComboBox_SelectionChanged">
+                            <ComboBoxItem Content="All Categories"/>
+                            <ComboBoxItem Content="General Physician"/>
+                            <ComboBoxItem Content="Skin &amp; Hair"/>
+                        </ComboBox>
                     </Grid>
 
                     <!-- Medicines List -->
@@ -111,6 +127,39 @@
                                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold" Foreground="#0F172A"/>
                                         <WrapPanel Margin="0,4,0,0">
+                                            <!-- Category tag -->
+                                            <Border CornerRadius="4" Padding="6,2" Margin="0,0,8,0">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="#F1F5F9"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Category}" Value="Skin &amp; Hair">
+                                                                <Setter Property="Background" Value="#FAE8FF"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Category}" Value="General Physician">
+                                                                <Setter Property="Background" Value="#CCFBF1"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock FontSize="11" FontWeight="Bold">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text" Value="{Binding Category}"/>
+                                                            <Setter Property="Foreground" Value="#475569"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Category}" Value="Skin &amp; Hair">
+                                                                    <Setter Property="Foreground" Value="#A855F7"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Category}" Value="General Physician">
+                                                                    <Setter Property="Foreground" Value="#0D9488"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Border>
+                                            
                                             <Border Background="#F1F5F9" CornerRadius="4" Padding="6,2" Margin="0,0,8,0">
                                                 <TextBlock Text="{Binding GenericName}" FontSize="11" Foreground="#475569" FontWeight="Medium"/>
                                             </Border>
@@ -165,6 +214,13 @@
                             <!-- Name -->
                             <TextBlock Text="Medicine Name (with brand/strength)" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,6" FontSize="13"/>
                             <TextBox x:Name="MedicineNameInput" Style="{StaticResource PremiumTextBoxStyle}" Margin="0,0,0,16"/>
+
+                            <!-- Category -->
+                            <TextBlock Text="Category" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,6" FontSize="13"/>
+                            <ComboBox x:Name="CategoryInput" Height="38" Margin="0,0,0,16" SelectedValuePath="Content" SelectedIndex="0">
+                                <ComboBoxItem Content="General Physician"/>
+                                <ComboBoxItem Content="Skin &amp; Hair"/>
+                            </ComboBox>
 
                             <!-- Generic Name -->
                             <TextBlock Text="Generic Name / Composition" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,6" FontSize="13"/>

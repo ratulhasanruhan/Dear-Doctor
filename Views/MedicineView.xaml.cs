@@ -34,24 +34,35 @@ namespace Dear_Doctor.Views
 
         private void UpdateListView()
         {
+            if (CategoryFilterComboBox == null || SearchBox == null || MedicinesListView == null) return;
+
             string query = SearchBox.Text.Trim();
-            List<Medicine> filtered;
+            string categoryFilter = (CategoryFilterComboBox.SelectedValue as string) ?? "All Categories";
             
-            if (string.IsNullOrEmpty(query))
+            IEnumerable<Medicine> filtered = _allMedicines;
+            
+            // Search filter
+            if (!string.IsNullOrEmpty(query))
             {
-                filtered = _allMedicines.OrderBy(m => m.Name).ToList();
+                filtered = filtered.Where(m => m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || 
+                                              m.GenericName.Contains(query, StringComparison.OrdinalIgnoreCase));
             }
-            else
+            
+            // Category filter
+            if (categoryFilter != "All Categories")
             {
-                filtered = _allMedicines
-                    .Where(m => m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || 
-                                m.GenericName.Contains(query, StringComparison.OrdinalIgnoreCase))
-                    .OrderBy(m => m.Name)
-                    .ToList();
+                filtered = filtered.Where(m => m.Category == categoryFilter);
             }
+
+            filtered = filtered.OrderBy(m => m.Name);
 
             _displayedMedicines = new ObservableCollection<Medicine>(filtered);
             MedicinesListView.ItemsSource = _displayedMedicines;
+        }
+
+        private void CategoryFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateListView();
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -67,6 +78,7 @@ namespace Dear_Doctor.Views
             
             DrawerTitle.Text = "Add Medicine";
             MedicineNameInput.Text = string.Empty;
+            CategoryInput.SelectedValue = "General Physician";
             GenericNameInput.Text = string.Empty;
             DefaultDoseInput.Text = string.Empty;
             DefaultDurationInput.Text = string.Empty;
@@ -85,6 +97,7 @@ namespace Dear_Doctor.Views
 
                 DrawerTitle.Text = "Edit Medicine";
                 MedicineNameInput.Text = medicine.Name;
+                CategoryInput.SelectedValue = string.IsNullOrEmpty(medicine.Category) ? "General Physician" : medicine.Category;
                 GenericNameInput.Text = medicine.GenericName;
                 DefaultDoseInput.Text = medicine.DefaultDose;
                 DefaultDurationInput.Text = medicine.DefaultDuration;
@@ -133,6 +146,7 @@ namespace Dear_Doctor.Views
             if (_editingMedicine == null) return;
 
             _editingMedicine.Name = name;
+            _editingMedicine.Category = CategoryInput.SelectedValue?.ToString() ?? "General Physician";
             _editingMedicine.GenericName = GenericNameInput.Text.Trim();
             _editingMedicine.DefaultDose = DefaultDoseInput.Text.Trim();
             _editingMedicine.DefaultDuration = DefaultDurationInput.Text.Trim();

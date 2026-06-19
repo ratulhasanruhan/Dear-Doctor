@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -139,7 +140,6 @@ namespace Dear_Doctor.Services
                 // Right Column content (Rx Medicines)
                 Grid rxGrid = new Grid { Margin = new Thickness(16, 0, 0, 0) };
                 rxGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Rx Symbol
-                rxGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Grid Header
                 rxGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }); // Grid Items
 
                 // Rx Symbol
@@ -147,80 +147,211 @@ namespace Dear_Doctor.Services
                 Grid.SetRow(rxSymbol, 0);
                 rxGrid.Children.Add(rxSymbol);
 
-                // Medicine Header row
-                Grid medicineHeader = new Grid { Margin = new Thickness(0, 0, 0, 8) };
-                medicineHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                medicineHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
-                medicineHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+                // Medicine List items container
+                StackPanel medicinesList = new StackPanel();
 
-                var addHeaderCol = new Action<string, int, bool>((text, col, hasBorder) =>
+                // Helper to create a bordered, formatted table for a category
+                var CreateTable = new Func<string, List<PrescribedItem>, FrameworkElement>((categoryTitle, items) =>
                 {
-                    Border b = new Border { Padding = new Thickness(col == 0 ? 0 : 8, 0, 0, 0) };
-                    if (hasBorder)
+                    StackPanel panel = new StackPanel { Margin = new Thickness(0, 0, 0, 20) };
+
+                    // 1. Category Title
+                    panel.Children.Add(new TextBlock
                     {
-                        b.BorderBrush = Brushes.Black;
-                        b.BorderThickness = new Thickness(0, 0, 1, 0);
+                        Text = categoryTitle,
+                        FontWeight = FontWeights.Bold,
+                        FontSize = 12,
+                        Foreground = Brushes.Black,
+                        Margin = new Thickness(0, 0, 0, 8),
+                        TextDecorations = TextDecorations.Underline,
+                        FontFamily = new FontFamily("Segoe UI")
+                    });
+
+                    // 2. Table Border (Outer Box)
+                    Border tableBorder = new Border
+                    {
+                        BorderBrush = Brushes.Black,
+                        BorderThickness = new Thickness(1)
+                    };
+
+                    Grid tableGrid = new Grid();
+                    tableGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row 0: Header
+                    tableGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Row 1: Rows list
+
+                    // Table Header Grid
+                    Grid header = new Grid { Background = new SolidColorBrush(Color.FromRgb(243, 244, 246)) };
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+
+                    var createHeaderCell = new Action<string, int, bool>((text, col, hasRightBorder) =>
+                    {
+                        Border b = new Border
+                        {
+                            Padding = new Thickness(col == 0 ? 4 : 8, 6, 8, 6),
+                            BorderBrush = Brushes.Black,
+                            BorderThickness = new Thickness(0, 0, hasRightBorder ? 1 : 0, 1)
+                        };
+                        b.Child = new TextBlock
+                        {
+                            Text = text,
+                            FontWeight = FontWeights.Bold,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            FontFamily = new FontFamily("Segoe UI"),
+                            HorizontalAlignment = col == 0 ? HorizontalAlignment.Center : HorizontalAlignment.Left
+                        };
+                        Grid.SetColumn(b, col);
+                        header.Children.Add(b);
+                    });
+
+                    createHeaderCell("SL", 0, true);
+                    createHeaderCell("Medicine and Composition", 1, true);
+                    createHeaderCell("Dosage", 2, true);
+                    createHeaderCell("Duration", 3, false);
+
+                    Grid.SetRow(header, 0);
+                    tableGrid.Children.Add(header);
+
+                    // Table Rows
+                    StackPanel rowsPanel = new StackPanel();
+                    int idx = 1;
+                    foreach (var item in items)
+                    {
+                        // Outer Row Border (bottom divider + alternating background)
+                        Border rowBorder = new Border
+                        {
+                            BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)), // #E5E7EB
+                            BorderThickness = new Thickness(0, 0, 0, 1),
+                            Background = (idx % 2 == 0) ? new SolidColorBrush(Color.FromRgb(245, 245, 245)) : Brushes.Transparent
+                        };
+
+                        Grid row = new Grid { MinHeight = 30 };
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+
+                        // Cell 0: SL
+                        Border slBorder = new Border
+                        {
+                            BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)),
+                            BorderThickness = new Thickness(0, 0, 1, 0),
+                            Padding = new Thickness(4)
+                        };
+                        slBorder.Child = new TextBlock
+                        {
+                            Text = idx.ToString(),
+                            FontWeight = FontWeights.Bold,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            HorizontalAlignment = HorizontalAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontFamily = new FontFamily("Segoe UI")
+                        };
+                        Grid.SetColumn(slBorder, 0);
+                        row.Children.Add(slBorder);
+
+                        // Cell 1: Name and Composition
+                        Border nameBorder = new Border
+                        {
+                            BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)),
+                            BorderThickness = new Thickness(0, 0, 1, 0),
+                            Padding = new Thickness(8, 4, 8, 4)
+                        };
+                        StackPanel nameStack = new StackPanel { VerticalAlignment = VerticalAlignment.Center };
+                        nameStack.Children.Add(new TextBlock
+                        {
+                            Text = item.MedicineName,
+                            FontWeight = FontWeights.SemiBold,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            TextWrapping = TextWrapping.Wrap,
+                            FontFamily = new FontFamily("Segoe UI")
+                        });
+                        if (!string.IsNullOrWhiteSpace(item.GenericName))
+                        {
+                            nameStack.Children.Add(new TextBlock
+                            {
+                                Text = item.GenericName,
+                                FontSize = 10,
+                                Foreground = Brushes.DarkGray,
+                                Margin = new Thickness(0, 2, 0, 0),
+                                TextWrapping = TextWrapping.Wrap,
+                                FontStyle = FontStyles.Italic,
+                                FontFamily = new FontFamily("Segoe UI")
+                            });
+                        }
+                        nameBorder.Child = nameStack;
+                        Grid.SetColumn(nameBorder, 1);
+                        row.Children.Add(nameBorder);
+
+                        // Cell 2: Dosage
+                        Border doseBorder = new Border
+                        {
+                            BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)),
+                            BorderThickness = new Thickness(0, 0, 1, 0),
+                            Padding = new Thickness(8, 4, 8, 4)
+                        };
+                        doseBorder.Child = new TextBlock
+                        {
+                            Text = item.Dose,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontFamily = new FontFamily("Segoe UI")
+                        };
+                        Grid.SetColumn(doseBorder, 2);
+                        row.Children.Add(doseBorder);
+
+                        // Cell 3: Duration
+                        Border durationBorder = new Border
+                        {
+                            Padding = new Thickness(8, 4, 8, 4)
+                        };
+                        durationBorder.Child = new TextBlock
+                        {
+                            Text = item.Duration,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontFamily = new FontFamily("Segoe UI")
+                        };
+                        Grid.SetColumn(durationBorder, 3);
+                        row.Children.Add(durationBorder);
+
+                        rowBorder.Child = row;
+                        rowsPanel.Children.Add(rowBorder);
+                        idx++;
                     }
-                    b.Child = new TextBlock { Text = text, FontWeight = FontWeights.Bold, FontSize = 13, Foreground = Brushes.Black, FontFamily = new FontFamily("Segoe UI") };
-                    Grid.SetColumn(b, col);
-                    medicineHeader.Children.Add(b);
+
+                    Grid.SetRow(rowsPanel, 1);
+                    tableGrid.Children.Add(rowsPanel);
+
+                    tableBorder.Child = tableGrid;
+                    panel.Children.Add(tableBorder);
+
+                    return panel;
                 });
 
-                addHeaderCol("Medicine and Composition", 0, true);
-                addHeaderCol("Dosage", 1, true);
-                addHeaderCol("Duration", 2, false);
-
-                Border headerUnderline = new Border { BorderBrush = Brushes.Black, BorderThickness = new Thickness(0, 0, 0, 1.5), Height = 1, VerticalAlignment = VerticalAlignment.Bottom };
-                Grid.SetColumnSpan(headerUnderline, 3);
-                medicineHeader.Children.Add(headerUnderline);
-
-                Grid.SetRow(medicineHeader, 1);
-                rxGrid.Children.Add(medicineHeader);
-
-                // Medicine List items
-                StackPanel medicinesList = new StackPanel();
-                int idx = 1;
-                foreach (var item in prescription.Medicines)
+                // Group 1: General Physician
+                var generalItems = prescription.Medicines.Where(item => item.Category == "General Physician" && !string.IsNullOrWhiteSpace(item.MedicineName)).ToList();
+                if (generalItems.Count > 0)
                 {
-                    // Skip empty rows
-                    if (string.IsNullOrWhiteSpace(item.MedicineName)) continue;
+                    medicinesList.Children.Add(CreateTable("General Physician", generalItems));
+                }
 
-                    Grid row = new Grid { Margin = new Thickness(0, 4, 0, 4), MinHeight = 30 };
-                    row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
-                    row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
-
-                    // Col 0: Name + Generic composition
-                    StackPanel namePanel = new StackPanel();
-                    StackPanel nameRow = new StackPanel { Orientation = Orientation.Horizontal };
-                    nameRow.Children.Add(new TextBlock { Text = idx.ToString() + ". ", FontWeight = FontWeights.Bold, FontSize = 13, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 6, 0), FontFamily = new FontFamily("Segoe UI") });
-                    nameRow.Children.Add(new TextBlock { Text = item.MedicineName, FontWeight = FontWeights.SemiBold, FontSize = 13, Foreground = Brushes.Black, TextWrapping = TextWrapping.Wrap, FontFamily = new FontFamily("Segoe UI") });
-                    namePanel.Children.Add(nameRow);
-
-                    if (!string.IsNullOrWhiteSpace(item.GenericName))
-                    {
-                        namePanel.Children.Add(new TextBlock { Text = item.GenericName, FontSize = 11, Foreground = Brushes.DarkGray, Margin = new Thickness(20, 2, 0, 0), TextWrapping = TextWrapping.Wrap, FontStyle = FontStyles.Italic, FontFamily = new FontFamily("Segoe UI") });
-                    }
-                    Grid.SetColumn(namePanel, 0);
-                    row.Children.Add(namePanel);
-
-                    // Col 1: Dosage
-                    TextBlock doseTb = new TextBlock { Text = item.Dose, FontSize = 13, Foreground = Brushes.Black, Padding = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center, FontFamily = new FontFamily("Segoe UI") };
-                    Grid.SetColumn(doseTb, 1);
-                    row.Children.Add(doseTb);
-
-                    // Col 2: Duration
-                    TextBlock durationTb = new TextBlock { Text = item.Duration, FontSize = 13, Foreground = Brushes.Black, Padding = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center, FontFamily = new FontFamily("Segoe UI") };
-                    Grid.SetColumn(durationTb, 2);
-                    row.Children.Add(durationTb);
-
-                    medicinesList.Children.Add(row);
-                    idx++;
+                // Group 2: Skin & Hair
+                var skinHairItems = prescription.Medicines.Where(item => item.Category == "Skin & Hair" && !string.IsNullOrWhiteSpace(item.MedicineName)).ToList();
+                if (skinHairItems.Count > 0)
+                {
+                    medicinesList.Children.Add(CreateTable("Skin & Hair", skinHairItems));
                 }
 
                 ScrollViewer scroll = new ScrollViewer { BorderThickness = new Thickness(0), Background = Brushes.Transparent, HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, VerticalScrollBarVisibility = ScrollBarVisibility.Disabled };
                 scroll.Content = medicinesList;
-                Grid.SetRow(scroll, 2);
+                Grid.SetRow(scroll, 1);
                 rxGrid.Children.Add(scroll);
 
                 Grid.SetColumn(rxGrid, 2);
