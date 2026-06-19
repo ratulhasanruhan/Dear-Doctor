@@ -70,6 +70,22 @@ namespace Dear_Doctor.Views
                         }
                     }
                 }
+
+                // Force legacy print dialog to enable native print preview in Windows 11
+                try
+                {
+                    using (var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Print\UnifiedPrintDialog", true))
+                    {
+                        if (key != null)
+                        {
+                            key.SetValue("PreferLegacyPrintDialog", 1, Microsoft.Win32.RegistryValueKind.DWord);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to set PreferLegacyPrintDialog registry value: {ex.Message}");
+                }
             }
             catch (Exception ex)
             {

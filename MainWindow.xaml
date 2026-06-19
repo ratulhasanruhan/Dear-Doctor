@@ -9,6 +9,7 @@
         Height="768" Width="1280" 
         MinHeight="600" MinWidth="1000"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Background="#F8FAFC"
         PreviewKeyDown="Window_PreviewKeyDown"
         Icon="/Assets/icon.png">
