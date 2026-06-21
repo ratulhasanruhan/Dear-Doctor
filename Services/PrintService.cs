@@ -100,7 +100,6 @@ namespace Dear_Doctor.Services
                 StackPanel leftPanel = new StackPanel { Margin = new Thickness(0, 0, 12, 0) };
                 var addClinicalBlock = new Action<string, string>((header, content) =>
                 {
-                    if (string.IsNullOrWhiteSpace(content)) return;
                     StackPanel sp = new StackPanel { Margin = new Thickness(0, 0, 0, 16) };
                     sp.Children.Add(new TextBlock { Text = header, FontWeight = FontWeights.Bold, FontSize = 12, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 4), FontFamily = new FontFamily("Segoe UI") });
                     sp.Children.Add(new TextBlock { Text = content, FontSize = 13, Foreground = Brushes.Black, TextWrapping = TextWrapping.Wrap, FontFamily = new FontFamily("Segoe UI") });
@@ -108,21 +107,12 @@ namespace Dear_Doctor.Services
                 });
 
                 // Vitals
-                if (!string.IsNullOrWhiteSpace(prescription.BP) || !string.IsNullOrWhiteSpace(prescription.PR))
-                {
-                    StackPanel vitalsPanel = new StackPanel { Margin = new Thickness(0, 0, 0, 16) };
-                    if (!string.IsNullOrWhiteSpace(prescription.BP))
-                    {
-                        vitalsPanel.Children.Add(new TextBlock { Text = "B.P: ", FontWeight = FontWeights.Bold, FontSize = 12, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 2), FontFamily = new FontFamily("Segoe UI") });
-                        vitalsPanel.Children.Add(new TextBlock { Text = prescription.BP + " mmHg", FontSize = 13, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 10), FontFamily = new FontFamily("Segoe UI") });
-                    }
-                    if (!string.IsNullOrWhiteSpace(prescription.PR))
-                    {
-                        vitalsPanel.Children.Add(new TextBlock { Text = "P.R: ", FontWeight = FontWeights.Bold, FontSize = 12, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 2), FontFamily = new FontFamily("Segoe UI") });
-                        vitalsPanel.Children.Add(new TextBlock { Text = prescription.PR, FontSize = 13, Foreground = Brushes.Black, FontFamily = new FontFamily("Segoe UI") });
-                    }
-                    leftPanel.Children.Add(vitalsPanel);
-                }
+                StackPanel vitalsPanel = new StackPanel { Margin = new Thickness(0, 0, 0, 16) };
+                vitalsPanel.Children.Add(new TextBlock { Text = "B.P: ", FontWeight = FontWeights.Bold, FontSize = 12, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 2), FontFamily = new FontFamily("Segoe UI") });
+                vitalsPanel.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(prescription.BP) ? "" : prescription.BP + " mmHg", FontSize = 13, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 10), FontFamily = new FontFamily("Segoe UI") });
+                vitalsPanel.Children.Add(new TextBlock { Text = "P.R: ", FontWeight = FontWeights.Bold, FontSize = 12, Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 2), FontFamily = new FontFamily("Segoe UI") });
+                vitalsPanel.Children.Add(new TextBlock { Text = prescription.PR, FontSize = 13, Foreground = Brushes.Black, FontFamily = new FontFamily("Segoe UI") });
+                leftPanel.Children.Add(vitalsPanel);
 
                 addClinicalBlock("C/O:", prescription.ChiefComplaints);
                 addClinicalBlock("Most probable diagnosis:", prescription.Diagnosis);
@@ -185,8 +175,8 @@ namespace Dear_Doctor.Services
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
-                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
 
                     var createHeaderCell = new Action<string, int, bool>((text, col, hasRightBorder) =>
                     {
@@ -212,8 +202,8 @@ namespace Dear_Doctor.Services
                     createHeaderCell("SL", 0, true);
                     createHeaderCell("Medicine and Composition", 1, true);
                     createHeaderCell("Dosage", 2, true);
-                    createHeaderCell("Duration", 3, true);
-                    createHeaderCell("Instruction", 4, false);
+                    createHeaderCell("Instruction", 3, true);
+                    createHeaderCell("Duration", 4, false);
 
                     Grid.SetRow(header, 0);
                     tableGrid.Children.Add(header);
@@ -235,9 +225,9 @@ namespace Dear_Doctor.Services
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
-                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
-
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+ 
                         // Cell 0: SL
                         Border slBorder = new Border
                         {
@@ -257,7 +247,7 @@ namespace Dear_Doctor.Services
                         };
                         Grid.SetColumn(slBorder, 0);
                         row.Children.Add(slBorder);
-
+ 
                         // Cell 1: Name and Composition
                         Border nameBorder = new Border
                         {
@@ -279,19 +269,19 @@ namespace Dear_Doctor.Services
                         {
                             nameStack.Children.Add(new TextBlock
                             {
-                                Text = item.GenericName,
-                                FontSize = 10,
-                                Foreground = Brushes.DarkGray,
-                                Margin = new Thickness(0, 2, 0, 0),
-                                TextWrapping = TextWrapping.Wrap,
-                                FontStyle = FontStyles.Italic,
-                                FontFamily = new FontFamily("Segoe UI")
+                                 Text = item.GenericName,
+                                 FontSize = 10,
+                                 Foreground = Brushes.DarkGray,
+                                 Margin = new Thickness(0, 2, 0, 0),
+                                 TextWrapping = TextWrapping.Wrap,
+                                 FontStyle = FontStyles.Italic,
+                                 FontFamily = new FontFamily("Segoe UI")
                             });
                         }
                         nameBorder.Child = nameStack;
                         Grid.SetColumn(nameBorder, 1);
                         row.Children.Add(nameBorder);
-
+ 
                         // Cell 2: Dosage
                         Border doseBorder = new Border
                         {
@@ -309,28 +299,12 @@ namespace Dear_Doctor.Services
                         };
                         Grid.SetColumn(doseBorder, 2);
                         row.Children.Add(doseBorder);
-
-                        // Cell 3: Duration
-                        Border durationBorder = new Border
+ 
+                        // Cell 3: Instruction
+                        Border instructionBorder = new Border
                         {
                             BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)),
                             BorderThickness = new Thickness(0, 0, 1, 0),
-                            Padding = new Thickness(8, 4, 8, 4)
-                        };
-                        durationBorder.Child = new TextBlock
-                        {
-                            Text = item.Duration,
-                            FontSize = 12,
-                            Foreground = Brushes.Black,
-                            VerticalAlignment = VerticalAlignment.Center,
-                            FontFamily = new FontFamily("Segoe UI")
-                        };
-                        Grid.SetColumn(durationBorder, 3);
-                        row.Children.Add(durationBorder);
-
-                        // Cell 4: Instruction
-                        Border instructionBorder = new Border
-                        {
                             Padding = new Thickness(8, 4, 8, 4)
                         };
                         instructionBorder.Child = new TextBlock
@@ -341,8 +315,24 @@ namespace Dear_Doctor.Services
                             VerticalAlignment = VerticalAlignment.Center,
                             FontFamily = new FontFamily("Segoe UI")
                         };
-                        Grid.SetColumn(instructionBorder, 4);
+                        Grid.SetColumn(instructionBorder, 3);
                         row.Children.Add(instructionBorder);
+ 
+                        // Cell 4: Duration
+                        Border durationBorder = new Border
+                        {
+                            Padding = new Thickness(8, 4, 8, 4)
+                        };
+                        durationBorder.Child = new TextBlock
+                        {
+                            Text = item.Duration,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontFamily = new FontFamily("Segoe UI")
+                        };
+                        Grid.SetColumn(durationBorder, 4);
+                        row.Children.Add(durationBorder);
 
                         rowBorder.Child = row;
                         rowsPanel.Children.Add(rowBorder);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dear_Doctor"
         mc:Ignorable="d"
-        Title="Dear Doctor - Prescription Generator" 
+        Title="Shifa Clinic - Prescription Generator" 
         Height="768" Width="1280" 
         MinHeight="600" MinWidth="1000"
         WindowStartupLocation="CenterScreen"
@@ -67,8 +67,12 @@
                                  Margin="0,0,0,16"/>
                     
                     <DockPanel LastChildFill="False">
-                        <TextBlock Text="Dear Doctor v1.0.0" FontSize="11" Foreground="#475569" DockPanel.Dock="Left"/>
-                        <TextBlock Text="Local Storage" FontSize="10" Foreground="#475569" DockPanel.Dock="Right" VerticalAlignment="Center"/>
+                        <TextBlock FontSize="11" Foreground="#475569" DockPanel.Dock="Left" VerticalAlignment="Center">
+                            <Run Text="Created by "/>
+                            <Hyperlink DockPanel.Dock="Right" NavigateUri="https://getindiatech.com/" RequestNavigate="Hyperlink_RequestNavigate" Foreground="#0866FF" TextDecorations="None">
+                                <Run Text="GetIndiaTech" FontWeight="SemiBold"/>
+                            </Hyperlink>
+                        </TextBlock>
                     </DockPanel>
                 </StackPanel>
             </Grid>
