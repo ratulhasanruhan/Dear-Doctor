@@ -174,8 +174,7 @@ namespace Dear_Doctor.Services
                     Grid header = new Grid { Background = new SolidColorBrush(Color.FromRgb(243, 244, 246)) };
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
-                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
 
                     var createHeaderCell = new Action<string, int, bool>((text, col, hasRightBorder) =>
@@ -202,8 +201,8 @@ namespace Dear_Doctor.Services
                     createHeaderCell("SL", 0, true);
                     createHeaderCell("Medicine and Composition", 1, true);
                     createHeaderCell("Dosage", 2, true);
-                    createHeaderCell("Instruction", 3, true);
-                    createHeaderCell("Duration", 4, false);
+                    
+                    createHeaderCell("Duration", 3, false);
 
                     Grid.SetRow(header, 0);
                     tableGrid.Children.Add(header);
@@ -224,8 +223,7 @@ namespace Dear_Doctor.Services
                         Grid row = new Grid { MinHeight = 30 };
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
-                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
  
                         // Cell 0: SL
@@ -291,32 +289,17 @@ namespace Dear_Doctor.Services
                         };
                         doseBorder.Child = new TextBlock
                         {
-                            Text = item.Dose,
+                            Text = item.DoseAndInstructions,
                             FontSize = 12,
                             Foreground = Brushes.Black,
                             VerticalAlignment = VerticalAlignment.Center,
+                            TextWrapping = TextWrapping.Wrap,
                             FontFamily = new FontFamily("Segoe UI")
                         };
                         Grid.SetColumn(doseBorder, 2);
                         row.Children.Add(doseBorder);
  
-                        // Cell 3: Instruction
-                        Border instructionBorder = new Border
-                        {
-                            BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)),
-                            BorderThickness = new Thickness(0, 0, 1, 0),
-                            Padding = new Thickness(8, 4, 8, 4)
-                        };
-                        instructionBorder.Child = new TextBlock
-                        {
-                            Text = item.Instructions,
-                            FontSize = 12,
-                            Foreground = Brushes.Black,
-                            VerticalAlignment = VerticalAlignment.Center,
-                            FontFamily = new FontFamily("Segoe UI")
-                        };
-                        Grid.SetColumn(instructionBorder, 3);
-                        row.Children.Add(instructionBorder);
+
  
                         // Cell 4: Duration
                         Border durationBorder = new Border
@@ -331,7 +314,7 @@ namespace Dear_Doctor.Services
                             VerticalAlignment = VerticalAlignment.Center,
                             FontFamily = new FontFamily("Segoe UI")
                         };
-                        Grid.SetColumn(durationBorder, 4);
+                        Grid.SetColumn(durationBorder, 3);
                         row.Children.Add(durationBorder);
 
                         rowBorder.Child = row;

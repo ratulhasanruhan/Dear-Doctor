@@ -29,7 +29,12 @@ namespace Dear_Doctor.Models
         public string Dose
         {
             get => _dose;
-            set { _dose = value; OnPropertyChanged(); }
+            set 
+            { 
+                _dose = value; 
+                OnPropertyChanged(); 
+                OnPropertyChanged(nameof(DoseAndInstructions)); 
+            }
         }
 
         public string Duration
@@ -41,7 +46,26 @@ namespace Dear_Doctor.Models
         public string Instructions
         {
             get => _instructions;
-            set { _instructions = value; OnPropertyChanged(); }
+            set 
+            { 
+                _instructions = value; 
+                OnPropertyChanged(); 
+                OnPropertyChanged(nameof(DoseAndInstructions)); 
+            }
+        }
+
+        public string DoseAndInstructions
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Dose) && string.IsNullOrWhiteSpace(Instructions))
+                    return string.Empty;
+                if (string.IsNullOrWhiteSpace(Dose))
+                    return Instructions;
+                if (string.IsNullOrWhiteSpace(Instructions))
+                    return Dose;
+                return $"{Dose} - {Instructions}";
+            }
         }
 
         public string Category

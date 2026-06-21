@@ -161,10 +161,10 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30"/> <!-- No. -->
-                                            <ColumnDefinition Width="3.6*"/>  <!-- Medicine -->
-                                            <ColumnDefinition Width="1.1*"/> <!-- Dose -->
-                                            <ColumnDefinition Width="1.1*"/> <!-- Duration -->
-                                            <ColumnDefinition Width="1.2*"/> <!-- Instruction -->
+                                            <ColumnDefinition Width="4.6*"/>  <!-- Medicine -->
+                                            <ColumnDefinition Width="1.0*"/> <!-- Dose -->
+                                            <ColumnDefinition Width="1.0*"/> <!-- Duration -->
+                                            <ColumnDefinition Width="1.0*"/> <!-- Instruction -->
                                             <ColumnDefinition Width="40"/>  <!-- Actions -->
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="#" FontWeight="SemiBold" Foreground="#64748B" FontSize="11"/>
@@ -182,10 +182,10 @@
                                             <Grid Margin="0,4">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30"/> <!-- No. -->
-                                                    <ColumnDefinition Width="3.6*"/>  <!-- Medicine -->
-                                                    <ColumnDefinition Width="1.1*"/> <!-- Dose -->
-                                                    <ColumnDefinition Width="1.1*"/> <!-- Duration -->
-                                                    <ColumnDefinition Width="1.2*"/> <!-- Instruction -->
+                                                    <ColumnDefinition Width="4.6*"/>  <!-- Medicine -->
+                                                    <ColumnDefinition Width="1.0*"/> <!-- Dose -->
+                                                    <ColumnDefinition Width="1.0*"/> <!-- Duration -->
+                                                    <ColumnDefinition Width="1.0*"/> <!-- Instruction -->
                                                     <ColumnDefinition Width="40"/>  <!-- Actions -->
                                                 </Grid.ColumnDefinitions>
 
@@ -432,12 +432,11 @@
                                                     </Grid.RowDefinitions>
                                                     <!-- Table Header -->
                                                     <Grid Grid.Row="0" Background="#F3F4F6">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="40"/>     <!-- SL -->
-                                                            <ColumnDefinition Width="*"/>      <!-- Name -->
-                                                            <ColumnDefinition Width="90"/>    <!-- Dose -->
-                                                            <ColumnDefinition Width="95"/>    <!-- Instruction -->
-                                                            <ColumnDefinition Width="80"/>     <!-- Duration -->
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="40"/>     <!-- SL -->
+                                                            <ColumnDefinition Width="*"/>      <!-- Name -->
+                                                            <ColumnDefinition Width="150"/>    <!-- Dosage (combined Dose + Instruction) -->
+                                                            <ColumnDefinition Width="80"/>     <!-- Duration -->
                                                         </Grid.ColumnDefinitions>
                                                         
                                                         <Border Grid.Column="0" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="4,6">
@@ -448,12 +447,9 @@
                                                         </Border>
                                                         <Border Grid.Column="2" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
                                                             <TextBlock Text="Dosage" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                        </Border>
-                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
-                                                            <TextBlock Text="Instruction" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                        </Border>
-                                                        <Border Grid.Column="4" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
-                                                            <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
+                                                            <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
                                                         </Border>
                                                     </Grid>
 
@@ -463,12 +459,11 @@
                                                             <DataTemplate>
                                                                 <Border BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Background="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EvenOddBackgroundConverter}}">
                                                                     <Grid MinHeight="30">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="40"/>
-                                                                            <ColumnDefinition Width="*"/>
-                                                                            <ColumnDefinition Width="90"/>
-                                                                            <ColumnDefinition Width="95"/>
-                                                                            <ColumnDefinition Width="80"/>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="40"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="150"/>
+                                                                            <ColumnDefinition Width="80"/>
                                                                         </Grid.ColumnDefinitions>
 
                                                                         <!-- SL -->
@@ -487,16 +482,10 @@
 
                                                                         <!-- Dosage -->
                                                                         <Border Grid.Column="2" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
-                                                                            <TextBlock Text="{Binding Dose}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
-                                                                        </Border>
-
-                                                                        <!-- Instruction -->
-                                                                        <Border Grid.Column="3" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
-                                                                            <TextBlock Text="{Binding Instructions}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
-                                                                        </Border>
-
+                                                                            <TextBlock Text="{Binding DoseAndInstructions}" TextWrapping="Wrap" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
+                                                                        </Border>
                                                                         <!-- Duration -->
-                                                                        <Border Grid.Column="4" Padding="8,4">
+                                                                        <Border Grid.Column=" 3" Padding="8,4">
                                                                             <TextBlock Text="{Binding Duration}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
                                                                         </Border>
                                                                     </Grid>
@@ -521,12 +510,11 @@
 
                                                     <!-- Table Header -->
                                                     <Grid Grid.Row="0" Background="#F3F4F6">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="40"/>     <!-- SL -->
-                                                            <ColumnDefinition Width="*"/>      <!-- Name -->
-                                                            <ColumnDefinition Width="90"/>    <!-- Dose -->
-                                                            <ColumnDefinition Width="95"/>    <!-- Instruction -->
-                                                             <ColumnDefinition Width="80"/>     <!-- Duration -->
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="40"/>     <!-- SL -->
+                                                            <ColumnDefinition Width="*"/>      <!-- Name -->
+                                                            <ColumnDefinition Width="150"/>    <!-- Dosage (combined Dose + Instruction) -->
+                                                            <ColumnDefinition Width="80"/>     <!-- Duration -->
                                                         </Grid.ColumnDefinitions>
 
                                                         <Border Grid.Column="0" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="4,6">
@@ -537,13 +525,10 @@
                                                         </Border>
                                                         <Border Grid.Column="2" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
                                                             <TextBlock Text="Dosage" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
+                                                            <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
                                                         </Border>
-                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
-                                                             <TextBlock Text="Instruction" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                         </Border>
-                                                         <Border Grid.Column="4" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
-                                                             <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                         </Border>
                                                     </Grid>
 
                                                     <!-- Table Rows -->
@@ -552,12 +537,11 @@
                                                             <DataTemplate>
                                                                 <Border BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Background="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EvenOddBackgroundConverter}}">
                                                                     <Grid MinHeight="30">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="40"/>
-                                                                            <ColumnDefinition Width="*"/>
-                                                                            <ColumnDefinition Width="90"/>
-                                                                            <ColumnDefinition Width="95"/>
-                                                                             <ColumnDefinition Width="80"/>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="40"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="150"/>
+                                                                            <ColumnDefinition Width="80"/>
                                                                         </Grid.ColumnDefinitions>
 
                                                                         <!-- SL -->
@@ -576,16 +560,10 @@
 
                                                                         <!-- Dosage -->
                                                                         <Border Grid.Column="2" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
-                                                                            <TextBlock Text="{Binding Dose}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
-                                                                        </Border>
-
-                                                                        <!-- Instruction -->
-                                                                         <Border Grid.Column="3" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
-                                                                             <TextBlock Text="{Binding Instructions}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
-                                                                         </Border>
-
-                                                                         <!-- Duration -->
-                                                                         <Border Grid.Column="4" Padding="8,4">
+                                                                            <TextBlock Text="{Binding DoseAndInstructions}" TextWrapping="Wrap" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <!-- Duration -->
+                                                                         <Border Grid.Column=" 3" Padding="8,4">
                                                                              <TextBlock Text="{Binding Duration}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
                                                                          </Border>
                                                                     </Grid>
