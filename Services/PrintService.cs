@@ -143,7 +143,7 @@ namespace Dear_Doctor.Services
                 rxGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) }); // Grid Items
 
                 // Rx Symbol
-                TextBlock rxSymbol = new TextBlock { Text = "Rx", FontSize = 36, FontWeight = FontWeights.ExtraBold, FontFamily = new FontFamily("Times New Roman"), Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 10) };
+                TextBlock rxSymbol = new TextBlock { Text = "Rx,", FontSize = 36, FontWeight = FontWeights.ExtraBold, FontFamily = new FontFamily("Times New Roman"), Foreground = Brushes.Black, Margin = new Thickness(0, 0, 0, 10) };
                 Grid.SetRow(rxSymbol, 0);
                 rxGrid.Children.Add(rxSymbol);
 
@@ -184,8 +184,9 @@ namespace Dear_Doctor.Services
                     Grid header = new Grid { Background = new SolidColorBrush(Color.FromRgb(243, 244, 246)) };
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
                     header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
-                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+                    header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
 
                     var createHeaderCell = new Action<string, int, bool>((text, col, hasRightBorder) =>
                     {
@@ -211,7 +212,8 @@ namespace Dear_Doctor.Services
                     createHeaderCell("SL", 0, true);
                     createHeaderCell("Medicine and Composition", 1, true);
                     createHeaderCell("Dosage", 2, true);
-                    createHeaderCell("Duration", 3, false);
+                    createHeaderCell("Duration", 3, true);
+                    createHeaderCell("Instruction", 4, false);
 
                     Grid.SetRow(header, 0);
                     tableGrid.Children.Add(header);
@@ -232,8 +234,9 @@ namespace Dear_Doctor.Services
                         Grid row = new Grid { MinHeight = 30 };
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
                         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(130) });
-                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+                        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
 
                         // Cell 0: SL
                         Border slBorder = new Border
@@ -310,6 +313,8 @@ namespace Dear_Doctor.Services
                         // Cell 3: Duration
                         Border durationBorder = new Border
                         {
+                            BorderBrush = new SolidColorBrush(Color.FromRgb(229, 231, 235)),
+                            BorderThickness = new Thickness(0, 0, 1, 0),
                             Padding = new Thickness(8, 4, 8, 4)
                         };
                         durationBorder.Child = new TextBlock
@@ -322,6 +327,22 @@ namespace Dear_Doctor.Services
                         };
                         Grid.SetColumn(durationBorder, 3);
                         row.Children.Add(durationBorder);
+
+                        // Cell 4: Instruction
+                        Border instructionBorder = new Border
+                        {
+                            Padding = new Thickness(8, 4, 8, 4)
+                        };
+                        instructionBorder.Child = new TextBlock
+                        {
+                            Text = item.Instructions,
+                            FontSize = 12,
+                            Foreground = Brushes.Black,
+                            VerticalAlignment = VerticalAlignment.Center,
+                            FontFamily = new FontFamily("Segoe UI")
+                        };
+                        Grid.SetColumn(instructionBorder, 4);
+                        row.Children.Add(instructionBorder);
 
                         rowBorder.Child = row;
                         rowsPanel.Children.Add(rowBorder);

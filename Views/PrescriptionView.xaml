@@ -161,15 +161,17 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30"/> <!-- No. -->
-                                            <ColumnDefinition Width="*"/>  <!-- Medicine -->
-                                            <ColumnDefinition Width="120"/> <!-- Dose -->
-                                            <ColumnDefinition Width="100"/> <!-- Duration -->
+                                            <ColumnDefinition Width="3.6*"/>  <!-- Medicine -->
+                                            <ColumnDefinition Width="1.1*"/> <!-- Dose -->
+                                            <ColumnDefinition Width="1.1*"/> <!-- Duration -->
+                                            <ColumnDefinition Width="1.2*"/> <!-- Instruction -->
                                             <ColumnDefinition Width="40"/>  <!-- Actions -->
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="#" FontWeight="SemiBold" Foreground="#64748B" FontSize="11"/>
                                         <TextBlock Grid.Column="1" Text="Medicine &amp; Composition" FontWeight="SemiBold" Foreground="#64748B" FontSize="11"/>
                                         <TextBlock Grid.Column="2" Text="Dosage" FontWeight="SemiBold" Foreground="#64748B" FontSize="11"/>
                                         <TextBlock Grid.Column="3" Text="Duration" FontWeight="SemiBold" Foreground="#64748B" FontSize="11"/>
+                                        <TextBlock Grid.Column="4" Text="Instruction" FontWeight="SemiBold" Foreground="#64748B" FontSize="11"/>
                                     </Grid>
                                 </Border>
 
@@ -180,9 +182,10 @@
                                             <Grid Margin="0,4">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30"/> <!-- No. -->
-                                                    <ColumnDefinition Width="*"/>  <!-- Medicine -->
-                                                    <ColumnDefinition Width="120"/> <!-- Dose -->
-                                                    <ColumnDefinition Width="100"/> <!-- Duration -->
+                                                    <ColumnDefinition Width="3.6*"/>  <!-- Medicine -->
+                                                    <ColumnDefinition Width="1.1*"/> <!-- Dose -->
+                                                    <ColumnDefinition Width="1.1*"/> <!-- Duration -->
+                                                    <ColumnDefinition Width="1.2*"/> <!-- Instruction -->
                                                     <ColumnDefinition Width="40"/>  <!-- Actions -->
                                                 </Grid.ColumnDefinitions>
 
@@ -218,8 +221,16 @@
                                                          PreviewKeyDown="DurationInput_PreviewKeyDown"
                                                          Margin="0,0,8,0"/>
 
+                                                <!-- Instruction -->
+                                                <TextBox Grid.Column="4" 
+                                                         x:Name="InstructionsInput"
+                                                         Style="{StaticResource PremiumTextBoxStyle}"
+                                                         Text="{Binding Instructions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         PreviewKeyDown="InstructionsInput_PreviewKeyDown"
+                                                         Margin="0,0,8,0"/>
+
                                                 <!-- Delete Row -->
-                                                <Button Grid.Column="4" 
+                                                <Button Grid.Column="5" 
                                                         Content="×" 
                                                         Style="{StaticResource DangerButtonStyle}"
                                                         Padding="0"
@@ -405,14 +416,100 @@
                                     </Grid.RowDefinitions>
 
                                     <!-- Rx Symbol -->
-                                    <TextBlock Grid.Row="0" Text="Rx" FontSize="36" FontWeight="ExtraBold" FontFamily="Times New Roman" Foreground="#000000" Margin="0,0,0,10"/>
+                                    <TextBlock Grid.Row="0" Text="Rx," FontSize="36" FontWeight="ExtraBold" FontFamily="Times New Roman" Foreground="#000000" Margin="0,0,0,10"/>
 
                                     <!-- Medicines Items -->
                                     <StackPanel Grid.Row="1" Margin="0,4,0,0">
                                         <!-- General Physician Medicines -->
                                         <StackPanel Margin="0,0,0,20" Visibility="{Binding Medicines, Converter={StaticResource CategoryVisibilityConverter}, ConverterParameter='General Physician'}">
-                                            <!-- Category Title -->
-                                            <!-- <TextBlock Text="General Physician" FontWeight="Bold" FontSize="11" Foreground="#000000" Margin="0,0,0,8" TextDecorations="Underline"/> -->
+                                            
+                                            <!-- Bordered Table -->
+                                            <Border BorderBrush="#000000" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/> <!-- Header -->
+                                                        <RowDefinition Height="*"/>    <!-- Rows -->
+                                                    </Grid.RowDefinitions>
+                                                    <!-- Table Header -->
+                                                    <Grid Grid.Row="0" Background="#F3F4F6">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="40"/>     <!-- SL -->
+                                                            <ColumnDefinition Width="*"/>      <!-- Name -->
+                                                            <ColumnDefinition Width="90"/>    <!-- Dose -->
+                                                            <ColumnDefinition Width="80"/>     <!-- Duration -->
+                                                            <ColumnDefinition Width="95"/>    <!-- Instruction -->
+                                                        </Grid.ColumnDefinitions>
+                                                        
+                                                        <Border Grid.Column="0" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="4,6">
+                                                            <TextBlock Text="SL" FontWeight="Bold" FontSize="12" Foreground="#000000" HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                        <Border Grid.Column="1" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
+                                                            <TextBlock Text="Medicine and Composition" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                        <Border Grid.Column="2" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
+                                                            <TextBlock Text="Dosage" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
+                                                            <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                        <Border Grid.Column="4" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
+                                                            <TextBlock Text="Instruction" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                    </Grid>
+
+                                                    <!-- Table Rows -->
+                                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Medicines, Converter={StaticResource CategoryFilterConverter}, ConverterParameter='General Physician'}" AlternationCount="1000">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Background="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EvenOddBackgroundConverter}}">
+                                                                    <Grid MinHeight="30">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="40"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="90"/>
+                                                                            <ColumnDefinition Width="80"/>
+                                                                            <ColumnDefinition Width="95"/>
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <!-- SL -->
+                                                                        <Border Grid.Column="0" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="4">
+                                                                            <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IndexConverter}}" 
+                                                                                       FontWeight="Bold" FontSize="12" Foreground="#000000" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+
+                                                                        <!-- Name & Composition -->
+                                                                        <Border Grid.Column="1" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
+                                                                            <StackPanel VerticalAlignment="Center">
+                                                                                <TextBlock Text="{Binding MedicineName}" FontWeight="SemiBold" FontSize="12" Foreground="#000000" TextWrapping="Wrap"/>
+                                                                                <TextBlock Text="{Binding GenericName}" FontSize="10" Foreground="#475569" Margin="0,2,0,0" TextWrapping="Wrap" FontStyle="Italic" Visibility="{Binding GenericName, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                                                                            </StackPanel>
+                                                                        </Border>
+
+                                                                        <!-- Dosage -->
+                                                                        <Border Grid.Column="2" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
+                                                                            <TextBlock Text="{Binding Dose}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
+                                                                        </Border>
+
+                                                                        <!-- Duration -->
+                                                                        <Border Grid.Column="3" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
+                                                                            <TextBlock Text="{Binding Duration}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
+                                                                        </Border>
+
+                                                                        <!-- Instruction -->
+                                                                        <Border Grid.Column="4" Padding="8,4">
+                                                                            <TextBlock Text="{Binding Instructions}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <!-- Skin & Hair Medicines -->
+                                        <StackPanel Margin="0,0,0,20" Visibility="{Binding Medicines, Converter={StaticResource CategoryVisibilityConverter}, ConverterParameter='Skin &amp; Hair'}">
                                             
                                             <!-- Bordered Table -->
                                             <Border BorderBrush="#000000" BorderThickness="1">
@@ -427,89 +524,9 @@
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="40"/>     <!-- SL -->
                                                             <ColumnDefinition Width="*"/>      <!-- Name -->
-                                                            <ColumnDefinition Width="130"/>    <!-- Dose -->
-                                                            <ColumnDefinition Width="100"/>    <!-- Duration -->
-                                                        </Grid.ColumnDefinitions>
-                                                        
-                                                        <Border Grid.Column="0" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="4,6">
-                                                            <TextBlock Text="SL" FontWeight="Bold" FontSize="12" Foreground="#000000" HorizontalAlignment="Center"/>
-                                                        </Border>
-                                                        <Border Grid.Column="1" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
-                                                            <TextBlock Text="Medicine and Composition" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                        </Border>
-                                                        <Border Grid.Column="2" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
-                                                            <TextBlock Text="Dosage" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                        </Border>
-                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
-                                                            <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
-                                                        </Border>
-                                                    </Grid>
-
-                                                    <!-- Table Rows -->
-                                                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Medicines, Converter={StaticResource CategoryFilterConverter}, ConverterParameter='General Physician'}" AlternationCount="1000">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <Border BorderBrush="#E5E7EB" BorderThickness="0,0,0,1" Background="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource EvenOddBackgroundConverter}}">
-                                                                    <Grid MinHeight="30">
-                                                                        <Grid.ColumnDefinitions>
-                                                                            <ColumnDefinition Width="40"/>
-                                                                            <ColumnDefinition Width="*"/>
-                                                                            <ColumnDefinition Width="130"/>
-                                                                            <ColumnDefinition Width="100"/>
-                                                                        </Grid.ColumnDefinitions>
-
-                                                                        <!-- SL -->
-                                                                        <Border Grid.Column="0" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="4">
-                                                                            <TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IndexConverter}}" 
-                                                                                       FontWeight="Bold" FontSize="12" Foreground="#000000" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                                        </Border>
-
-                                                                        <!-- Name & Composition -->
-                                                                        <Border Grid.Column="1" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
-                                                                            <StackPanel VerticalAlignment="Center">
-                                                                                <TextBlock Text="{Binding MedicineName}" FontWeight="SemiBold" FontSize="12" Foreground="#000000" TextWrapping="Wrap"/>
-                                                                                <TextBlock Text="{Binding GenericName}" FontSize="10" Foreground="#475569" Margin="0,2,0,0" TextWrapping="Wrap" FontStyle="Italic" Visibility="{Binding GenericName, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                                                                            </StackPanel>
-                                                                        </Border>
-
-                                                                        <!-- Dosage -->
-                                                                        <Border Grid.Column="2" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
-                                                                            <TextBlock Text="{Binding Dose}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
-                                                                        </Border>
-
-                                                                        <!-- Duration -->
-                                                                        <Border Grid.Column="3" Padding="8,4">
-                                                                            <TextBlock Text="{Binding Duration}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
-                                                                        </Border>
-                                                                    </Grid>
-                                                                </Border>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </Grid>
-                                            </Border>
-                                        </StackPanel>
-
-                                        <!-- Skin & Hair Medicines -->
-                                        <StackPanel Margin="0,0,0,20" Visibility="{Binding Medicines, Converter={StaticResource CategoryVisibilityConverter}, ConverterParameter='Skin &amp; Hair'}">
-                                            <!-- Category Title -->
-                                            <!-- <TextBlock Text="Skin &amp; Hair" FontWeight="Bold" FontSize="11" Foreground="#000000" Margin="0,0,0,8" TextDecorations="Underline"/> -->
-
-                                            <!-- Bordered Table -->
-                                            <Border BorderBrush="#000000" BorderThickness="1">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/> <!-- Header -->
-                                                        <RowDefinition Height="*"/>    <!-- Rows -->
-                                                    </Grid.RowDefinitions>
-
-                                                    <!-- Table Header -->
-                                                    <Grid Grid.Row="0" Background="#F3F4F6">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="40"/>     <!-- SL -->
-                                                            <ColumnDefinition Width="*"/>      <!-- Name -->
-                                                            <ColumnDefinition Width="130"/>    <!-- Dose -->
-                                                            <ColumnDefinition Width="100"/>    <!-- Duration -->
+                                                            <ColumnDefinition Width="90"/>    <!-- Dose -->
+                                                            <ColumnDefinition Width="80"/>     <!-- Duration -->
+                                                            <ColumnDefinition Width="95"/>    <!-- Instruction -->
                                                         </Grid.ColumnDefinitions>
 
                                                         <Border Grid.Column="0" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="4,6">
@@ -521,8 +538,11 @@
                                                         <Border Grid.Column="2" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
                                                             <TextBlock Text="Dosage" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
                                                         </Border>
-                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
+                                                        <Border Grid.Column="3" BorderBrush="#000000" BorderThickness="0,0,1,1" Padding="8,6">
                                                             <TextBlock Text="Duration" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
+                                                        </Border>
+                                                        <Border Grid.Column="4" BorderBrush="#000000" BorderThickness="0,0,0,1" Padding="8,6">
+                                                            <TextBlock Text="Instruction" FontWeight="Bold" FontSize="12" Foreground="#000000"/>
                                                         </Border>
                                                     </Grid>
 
@@ -535,8 +555,9 @@
                                                                         <Grid.ColumnDefinitions>
                                                                             <ColumnDefinition Width="40"/>
                                                                             <ColumnDefinition Width="*"/>
-                                                                            <ColumnDefinition Width="130"/>
-                                                                            <ColumnDefinition Width="100"/>
+                                                                            <ColumnDefinition Width="90"/>
+                                                                            <ColumnDefinition Width="80"/>
+                                                                            <ColumnDefinition Width="95"/>
                                                                         </Grid.ColumnDefinitions>
 
                                                                         <!-- SL -->
@@ -559,8 +580,13 @@
                                                                         </Border>
 
                                                                         <!-- Duration -->
-                                                                        <Border Grid.Column="3" Padding="8,4">
+                                                                        <Border Grid.Column="3" BorderBrush="#E5E7EB" BorderThickness="0,0,1,0" Padding="8,4">
                                                                             <TextBlock Text="{Binding Duration}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
+                                                                        </Border>
+
+                                                                        <!-- Instruction -->
+                                                                        <Border Grid.Column="4" Padding="8,4">
+                                                                            <TextBlock Text="{Binding Instructions}" FontSize="12" Foreground="#000000" VerticalAlignment="Center"/>
                                                                         </Border>
                                                                     </Grid>
                                                                 </Border>
@@ -569,7 +595,7 @@
                                                     </ItemsControl>
                                                 </Grid>
                                             </Border>
-                                        </StackPanel>
+                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
                             </Grid>

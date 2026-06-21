@@ -106,6 +106,7 @@ namespace Dear_Doctor.Views
                     item.GenericName = e.Medicine.GenericName;
                     item.Dose = e.Medicine.DefaultDose;
                     item.Duration = e.Medicine.DefaultDuration;
+                    item.Instructions = e.Medicine.DefaultInstructions;
                     item.Category = string.IsNullOrEmpty(e.Medicine.Category) ? "General Physician" : e.Medicine.Category;
 
                     // Focus the DoseInput TextBox of the same row
@@ -156,6 +157,34 @@ namespace Dear_Doctor.Views
         }
 
         private void DurationInput_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter || e.Key == Key.Tab)
+            {
+                if (sender is TextBox textBox)
+                {
+                    var item = textBox.DataContext as PrescribedItem;
+                    if (item != null)
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            var container = MedicinesItemsControl.ItemContainerGenerator.ContainerFromItem(item) as ContentPresenter;
+                            if (container != null)
+                            {
+                                var instructionsInput = FindVisualChild<TextBox>(container, "InstructionsInput");
+                                if (instructionsInput != null)
+                                {
+                                    instructionsInput.Focus();
+                                    instructionsInput.SelectAll();
+                                }
+                            }
+                        }), System.Windows.Threading.DispatcherPriority.Input);
+                        e.Handled = true;
+                    }
+                }
+            }
+        }
+
+        private void InstructionsInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {

@@ -33,7 +33,7 @@
                 <StackPanel Grid.Row="0" Margin="0,0,0,32">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Border Width="10" Height="24" Background="#14B8A6" CornerRadius="3" Margin="0,0,10,0"/>
-                        <TextBlock Text="Dear Doctor" FontSize="20" FontWeight="ExtraBold" Foreground="#FFFFFF" FontFamily="{StaticResource MainFont}"/>
+                        <TextBlock Text="Shifa Clinic" FontSize="20" FontWeight="ExtraBold" Foreground="#FFFFFF" FontFamily="{StaticResource MainFont}"/>
                     </StackPanel>
                     <TextBlock Text="Prescription Suite" FontSize="11" Foreground="#64748B" Margin="20,4,0,0" FontWeight="SemiBold"/>
                 </StackPanel>
